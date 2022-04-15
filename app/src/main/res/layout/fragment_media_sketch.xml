@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".features.detail.media_attachments.media_sketch.MediaSketchFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/media_sketch_top_toolbar"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <FrameLayout
+            android:id="@+id/media_sketch_toolbar_back"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/media_sketch_eraser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/arrow_left" />
+        </FrameLayout>
+
+
+        <TextView
+            android:id="@+id/sketch_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:fontFamily="@font/sf_pro_bold"
+            android:gravity="center"
+            android:text="@string/sketch"
+            android:textColor="@color/app_black"
+            android:textSize="@dimen/default_20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/media_sketch_toolbar_back"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/sketch_ready_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:padding="13dp"
+            android:text="@string/ready"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/default_17sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <ru.scheduled.mediaattachmentslibrary.SketchDrawingView
+        android:id="@+id/media_sketch_drawing_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:activeColor="@color/colorPrimary"
+        app:eraserLineWidth="50dp"
+        app:penLineWidth="2dp"
+        app:disabledColor="@color/color_primary_light"
+        app:hintText="@string/start_drawing"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/media_sketch_top_toolbar" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

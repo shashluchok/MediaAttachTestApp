@@ -1,0 +1,372 @@
+<resources>
+
+    <!--Common-->
+    <string name="greetings_text">Willkommen bei \nLeadFrog!</string>
+    <string name="back">Zurück</string>
+    <string name="next">Weiter</string>
+    <string name="do_cancel">Abbrechen</string>
+    <string name="company_title">Firma</string>
+    <string name="searching">Suche</string>
+    <string name="close">SCHLIEßEN</string>
+    <string name="network_error">Keine Verbindung zum Server</string>
+    <string name="server_unknown_error">Keine Internetverbindung</string>
+    <string name="save">Speichern</string>
+    <string name="delete">Löschen</string>
+    <string name="make_choice">Auswählen</string>
+    <string name="change">Bearbeiten</string>
+    <string name="confirm">Bestätigen</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="done">Fertig</string>
+    <string name="clear">Bearbeiten</string>
+    <string name="no">Nein</string>
+    <string name="yes">Ja</string>
+    <string name="deny">Sich weigern</string>
+    <string name="accept">Annehmen</string>
+
+    <!--Choose Show-->
+    <string name="choose_event">Messe auswählen</string>
+    <string name="no_events">Keine Messen vorhanden</string>
+
+    <!--Choose Role-->
+    <string name="visitor">Besucher</string>
+    <string name="standman">Aussteller</string>
+    <string name="who_are_you_choose_role">Status auswählen</string>
+    <string name="choose_company_button">Firma auswählen</string>
+    <string name="support">Support</string>
+    <string name="pay_free_in_russia_choose_role">Kostenlos für Russland</string>
+    <string name="chat_with_support">Live-Chat-Support</string>
+    <string name="online_word">Online</string>
+    <string name="registration_error_choosing_company">Bitte wählen Sie eine Firma aus. Wenn Ihre Firma nicht auf der Liste ist, wenden Sie sich bitte an den technischen Support</string>
+    <string name="error_loading_companies_by_event">Das Hochladen von Firmen für die Ausstellung ist fehlgeschlagen. Kontaktieren Sie bitte den technischen Support</string>
+
+    <!--Registration-->
+    <string name="register">Anmeldung</string>
+    <string name="title_last_name">Nachname</string>
+    <string name="placeholder_last_name">Nachname eingeben</string>
+    <string name="title_first_name">Vorname</string>
+    <string name="placeholder_first_name">Vorname eingeben</string>
+    <string name="title_email">E-mail</string>
+    <string name="another_another_placeholder_email">E-mail eingeben</string>
+    <string name="title_phone">Handynummer</string>
+    <string name="another_another_placeholder_phone">Handynummer eingeben</string>
+    <string name="title_confirm_code">Handynummer bestätigen</string>
+    <string name="placeholder_confirm_code">Code eintragen</string>
+    <string name="send_code_button">Code senden</string>
+    <string name="agreement2">AGB</string>
+    <string name="do_register">Anmelden</string>
+    <string name="need_to_enter_last_name">Nachname muss eingegeben werden</string>
+    <string name="need_to_enter_first_name">Vorname muss eingegeben werden</string>
+    <string name="need_to_enter_email">E-Mail muss eingegeben werden</string>
+    <string name="need_to_enter_phone_number">Handynummer muss eingegeben werden</string>
+    <string name="error_wrong_confirm_code">Ungültige SMS-Code</string>
+    <string name="error_wrong_format_phone_number">Ungültige Handynummer</string>
+    <string name="error_wrong_format_email">Ungültige E-Mail</string>
+    <string name="need_to_enter_confirm_code">SMS-Code muss eingegeben werden</string>
+
+    <!--Authorization-->
+    <string name="badge_number_title">Badge Nummer</string>
+    <string name="placeholder_badge_number">Badge Nummer eingeben</string>
+    <string name="scan_badge">Badge scannen</string>
+    <string name="error_wrong_badge_number">Ungültige Badge Nummer</string>
+    <string name="point_the_camera">Richten Sie die Kamera\n auf den Barcode Ihres Badges</string>
+
+
+
+    <!--Profile Main-->
+    <string name="send_data_to_email">Erfasste Daten\nper E-Mail senden</string>
+    <string name="my_data">Meine Daten</string>
+    <string name="my_contacts">Meine Kontaktdaten</string>
+    <string name="about_me">Über mich</string>
+    <string name="my_links">Links</string>
+    <string name="questions_and_answers">FAQ</string>
+    <string name="settings_word">Einstellungen</string>
+    <string name="profile_support">Support</string>
+    <string name="lets_exit_from_account">Ausloggen</string>
+
+    <string name="send_history">Verlauf senden</string>
+    <string name="enter_your_email">E-Mail eingeben</string>
+    <string name="send">Senden</string>
+
+    <string name="exit_from_account">Ausloggen</string>
+    <string name="confirm_exit_from_account">Sind Sie sicher, dass Sie sich ausloggen möchten?</string>
+    <string name="exit">Ausloggen</string>
+    <string name="question_make_visitor_as_standman">Сделать этого посетителя сотрудником вашей компании?</string>
+    <string name="badge_is_not_a_visitor">Beim Hinzufügen eines neuen Mitglieds ist ein Fehler aufgetreten. Der von Ihnen gescannte Ausweis ist möglicherweise kein Besucherausweis.</string>
+    <string name="visitor_standman_request_successful">Приглашение в компанию отправлено</string>
+    <string name="exit_from_company_profile">Das Unternehmen verlassen</string>
+    <string name="ask_about_exiting_from_company">Вы действительно хотите выйти?</string>
+    <string name="you_are_invited_to_company">Вас пригласили в компанию</string>
+    <string name="now_you_are_in_company">Стать сотрудником компании</string>
+    <string name="badge_not_found">Badge nicht gefunden</string>
+    <string name="point_the_camera_profile">Besucherausweises,\n um ihn zum Standvertreter Ihres Unternehmens zu machen.</string>
+    <string name="add_visitor_to_company">Cделать сотрудником</string>
+    <string name="exit_from_company">Das Unternehmen verlassen</string>
+    <string name="my_company">Meine Firma</string>
+
+    <!--About-->
+    <string name="position_title">Position</string>
+    <string name="description">Beschreibung</string>
+
+    <!--Add Contact-->
+    <string name="one_contact">Kontaktdaten</string>
+    <string name="title_word">Titel</string>
+    <string name="placeholder_contact_title">Titel eingeben</string>
+    <string name="address_title">Adresse</string>
+    <string name="another_placeholder_site">Link eingeben</string>
+    <string name="add_contact">Kontakt hinzufügen</string>
+    <string name="placeholder_phone_number">Telefonnummer eingeben</string>
+
+    <!--Add Location-->
+    <string name="choose_country">Land auswählen</string>
+    <string name="placeholder_postcode">PLZ</string>
+    <string name="placeholder_country">Land</string>
+    <string name="placeholder_region">Region</string>
+    <string name="placeholder_city">Stadt</string>
+    <string name="another_placeholder_address">Str., Nr.</string>
+
+    <!--Settings-->
+    <string name="choose_language_title">Sprache auswählen</string>
+    <string name="available_languages">Verfügbare Sprachen</string>
+    <string name="language_title">Sprache</string>
+
+    <!--Shardlist No shards-->
+    <string name="title_general">Gesamtansicht</string>
+    <string name="no_data_yet">Noch keine Daten</string>
+    <string name="lets_scan_your_first_shard">Um die Datenerfassung zu starten,\nscannen Sie den QR-Code oder Barcode</string>
+    <string name="scan">Scannen</string>
+
+    <!--Wizard-->
+    <string name="how_to_start_scanning">Wie beginne ich mit dem Scannen?</string>
+    <string name="wizard_to_start_scanning"></string>
+    <string name="wizard_tap_on_central_button">Klicken Sie die mittlere Taste</string>
+    <string name="wizard_in_bottom_nav">\ auf der unteren Navigationsleiste an, um mit dem Scanvorgang zu beginnen</string>
+    <string name="wizard_place_camera">Richten Sie die Kamera </string>
+    <string name="wizard_place_camera_second_part">\ auf den Barcode des Badges, QR-Code eines Produkts oder Messestandes</string>
+    <string name="how_to_fill_survey">Wie fülle ich den Fragebogen aus?</string>
+    <string name="wizard_scan">Scannen Sie</string>
+    <string name="wizard_scan_second_part">\ den Badge eines Besuchers oder Ausstellers.</string>
+    <string name="wizard_go_to">Gehen Sie </string>
+    <string name="wizard_go_to_second_part">\ im unteren Menü auf </string>
+    <string name="wizard_surveys">\ “Fragebögen” </string>
+    <string name="wizard_go_to_third_part"></string>
+    <string name="wizard_fill_in">Füllen Sie </string>
+    <string name="wizard_fill_in_second_part">\ den Fragebogen aus.</string>
+    <string name="how_to_create_a_note">Wie kann ich eine Notiz hinzufügen?</string>
+    <string name="wizard_notes_scan_second_part">\ den Badge des Besuchers oder Standmitarbeiters, den QR-Code des Produkts oder des Unternehmens, denen Sie eine Notiz hinzufügen möchten.</string>
+    <string name="wizard_go_to_notes">\ im unteren Menü auf Notizen.</string>
+    <string name="wizard_tap">Klicken Sie </string>
+    <string name="wizard_fourth_step_tap">Klicken Sie </string>
+    <string name="wizard_tap_second_part">\ “Notiz hinzufügen” an.</string>
+    <string name="how_to_export_data">Wie lade ich die Daten hoch?</string>
+    <string name="wizard_enter_in">Gehen Sie</string>
+    <string name="wizard_your_profile">\ zu Ihrem Profil.</string>
+    <string name="wizard_button">\ den Knopf </string>
+    <string name="wizard_collected_data">\ “Erfasste Daten per E-Mail senden” an.</string>
+    <string name="ok">Ok</string>
+
+    <!--Shard list types-->
+    <string name="toolbar_change_view_shardlist">Datenansicht</string>
+    <string name="title_companies">Firmen</string>
+    <string name="title_users">Badges</string>
+    <string name="title_production">Produkte</string>
+    <string name="title_pending">Austehend</string>
+    <string name="title_forms">Fragebögen</string>
+
+    <!--Camera-->
+    <string name="creating_the_card">Karte erstellen</string>
+    <string name="text_on_main_camera">Kamera ausrichten und scannen:\nBarcode des Badges, QR-Code eines Produkts oder Messestandes</string>
+    <string name="create_the_card_manually">Karte manuell erstellen</string>
+
+    <!--Detail-->
+    <string name="about_company">Über uns</string>
+    <string name="full_detail">Mehr</string>
+    <string name="event_word">Messe</string>
+    <string name="stand_word">Standnummer</string>
+    <string name="creation_date">erstellt am</string>
+    <string name="contacts">Kontakte</string>
+    <string name="survey">Fragebogen</string>
+    <string name="my_notes">Meine Notizen</string>
+
+    <string name="survey_error_no_surveys">Sie haben keinen Fragebogen erstellt\nDer Fragebogen kann in Ihrem persönlichen Account erstellt werden</string>
+    <string name="survey_error_download">Fehler beim Hochladen des Fragebogens</string>
+
+    <string name="waiting_for_data">Warten auf Daten</string>
+    <string name="data_in_progress_from_server">Daten werden vom Server heruntergeladen</string>
+    <string name="no_notes_yet">Noch keine Notizen</string>
+    <string name="add_note_button">Notiz hinzufügen</string>
+    <string name="edit">Bearbeiten</string>
+    <string name="make_copy">Kopieren</string>
+    <string name="one_note">Notiz</string>
+    <string name="choose_survey">Fragebogen auswählen</string>
+    <string name="didnt_fill_all_important_questions">Sie haben nicht alle wichtige Fragen beantwortet</string>
+    <string name="surveys_exit">Verlassen</string>
+    <string name="fill_in">Ausfüllen</string>
+    <string name="important_question">Wichtige Frage</string>
+    <string name="another_answer">Eigene Antwort</string>
+    <string name="text_answer">Text…</string>
+
+    <string name="scan_qr_or_business_card">Visitenkarte / QR-Kontakt scannen</string>
+    <string name="import_contact">Kontakt aus dem Telefonbuch importieren</string>
+
+    <string name="card_recognition">Visitenkarte-Erkennung</string>
+    <string name="send_image">Foto wird gesendet</string>
+    <string name="data_loading">Datenverarbeitung</string>
+    <string name="add_sign">Unterschrift hinzufügen</string>
+    <string name="sign">Unterschrift</string>
+    <string name="sign_added">Unterschrieben</string>
+    <string name="sign_again">Erneut unterschreiben</string>
+    <string name="hold_the_current_sign">aktuelle Unterschrift lassen</string>
+    <string name="clear_sign">Unterschrift bearbeiten</string>
+    <string name="save_sign_ask">Unterschrift speichern?</string>
+
+    <string name="phone_contact_type_work">Arbeit</string>
+    <string name="phone_contact_type_personal">Privat</string>
+    <string name="phone_contact_type_additional">Sonstige</string>
+    <string name="phone_contact_type_whatsapp_phone">WhatsApp</string>
+    <string name="phone_contact_type_telegram_phone">Telegram</string>
+    <string name="email_contact_type_sales">Vertriebsabteilung</string>
+    <string name="email_contact_type_partnership">Kooperation</string>
+    <string name="site_contact_type_catalog">Katalog</string>
+    <string name="site_contact_type_price_list">Preisliste</string>
+    <string name="site_contact_type_feedback">Feedback</string>
+    <string name="site_contact_type_service">Service</string>
+    <string name="site_contact_type_primary">Hauptsitz</string>
+    <string name="location_contact_type_office">Büro</string>
+    <string name="location_contact_type_storage">Lager</string>
+    <string name="location_contact_type_shop">Shop</string>
+
+    <string name="add_phone_custom_contact_button">Telefonnummer hinzufügen</string>
+    <string name="add_email_custom_contact_button">E-Mail hinzufügen</string>
+    <string name="add_site_custom_contact_button">Website hinzufügen</string>
+    <string name="add_address_custom_contact_button">Adresse hinzufügen</string>
+
+    <!--Update-->
+    <string name="new_version_dialog_title">Um weiterarbeiten zu können, muss die App aktualisiert werden</string>
+    <string name="new_version_dialog_subtitle">Ein wichtiges Update ist erschienen</string>
+    <string name="new_version_go_to_market">Google Play öffnen</string>
+
+    <string name="contact_title_label">Kontakttitel</string>
+
+    <!--General Phrases-->
+    <string name="wait_an_operation">Bitte  ,\nwarten…</string>
+    <string name="enter_at_least_one_field">Mindestens ein Feld muss ausgefüllt werden</string>
+    <string name="error_not_saving_because_of_note_empty">Füllen Sie die Notiz aus, um zu speichern</string>
+    <string name="enter_note_text">Geben Sie den Notiztext ein</string>
+    <string name="text_was_copied">Text kopiert</string>
+    <string name="enter_all_fields">Füllen Sie alle Felder aus</string>
+    <string name="just_error_word">Fehler</string>
+    <string name="server_error_for_users">Serverfehler</string>
+
+    <string name="permission_request_cancelled">Geben Sie bitte Ihre Erlaubnis</string>
+    <string name="data_is_in_first_sync_process">Ihre Daten werden noch heruntergeladen,\naber die App kann genutzt werden</string>
+    <string name="wait_for_sync_progress">Warten Sie bitte, der Synchronisierungsprozess läuft</string>
+    <string name="sync_in_progress">Datensynchronisierung läuft\nBitte warten…</string>
+    <string name="error_updating_data_in_sync">Daten nicht aktualisiert</string>
+    <string name="creating_shard_in_progress">Bearbeitung…</string>
+    <string name="error_of_fetching_company">Datenabruf ist fehlgeschlagen</string>
+    <string name="company_not_found">Firma nicht gefunden</string>
+    <string name="first_sync_error">App-Initialisierung ist fehlgeschlagen</string>
+    <string name="sync_error">Fehler beim Laden von Daten</string>
+    <string name="error_not_saving_because_of_empty_custom_contact">Füllen Sie mindestens ein Feld aus, um zu speichern</string>
+    <string name="error_not_saving_because_of_empty_last_name_or_first_name">Geben Sie den Vor- oder Nachnamen ein, um zu speichern</string>
+    <string name="error_saving_profile">Fehler bei Profilspeicherung</string>
+    <string name="error_getting_profile">Fehler beim Profilabruf</string>
+    <string name="email_send_successful">Daten erfolgreich übermittelt</string>
+    <string name="email_send_failure">Daten nicht übermittelt</string>
+    <string name="products_fetching_in_progress">Produkte werden geladen</string>
+    <string name="error_loading_products_of_company">Produkte konnten nicht geladen werden</string>
+    <string name="no_products_in_company_detail">Keine Produkte gefunden</string>
+
+    <string name="title_site">Website</string>
+    <string name="qr_found">QR-Code erkannt</string>
+    <string name="fill_data_with_qr_question">Kontaktdaten aus der QR-Code eintragen?</string>
+    <string name="fill">Eintragen</string>
+
+    <string name="thematic_title">Rubrik</string>
+    <string name="characteristics">TECHNISCHE DATEN</string>
+    <string name="show_all_characteristics">Alle technische Daten anzeigen</string>
+    <string name="url">URL</string>
+    <string name="title_default_pending_product">Produkt</string>
+    <string name="title_default_pending_badge">Badge</string>
+    <string name="request_to_receive_data">Datenanfrage gesendet</string>
+    <string name="error_scaning_your_own_badge">Sie scannen Ihren Badge ein</string>
+
+    <string name="phone_number_label">Telefonnummer</string>
+    <string name="email_label">E-Mail-Adresse</string>
+
+    <string name="default_email_title">E-mail</string>
+    <string name="default_link_title">Link</string>
+
+    <!--Заменить-->
+    <string name="image_upload_errror">Fehler beim Hochladen von Fotos auf den Server</string>
+    <string name="no_data_found">Daten nicht gefunden</string>
+
+    <string name="pop_up_exit">Verlassen</string>
+
+    <string name="invalid_data">Fehlerhafte Daten</string>
+
+    <string name="events_in_progress">loading exhibitions…</string>
+    <string name="recover">Wiederherstellen</string>
+    <string name="trash">Papierkorb</string>
+
+    <string name="company_remove_pop_up_top_header">Achtung! Alle Daten, die in der ausgewählten Firma erfasst sind, werden in den Papierkorb verschoben</string>
+    <string name="company_remove_pop_up_second_header">Einschließlich%1$s%2$s%3$s</string>
+
+    <!-- HINT -->
+    <string name="hint_type_of_pending_badge">Badge wurde nicht erkannt</string>
+    <string name="hint_type_of_pending_qr">QR-Code nicht erkannt</string>
+    <string name="hint_description_badge">Die Teilnehmerdaten wurden noch nicht geladen oder sie wurden bei der Registrierung nicht angegeben.</string>
+    <string name="hint_description_qr">Die Daten wurden noch nicht geladen oder sie wurden nicht angegeben.</string>
+    <string name="hint_recommend">Wir empfehlen:</string>
+    <string name="hint_step_1_create_note">Erstellen Sie eine Notiz</string>
+    <string name="hint_step_1_for_that_badge">\ für diesen Badge.</string>
+    <string name="hint_step_1_for_that_product">\ für dieses Produkt.</string>
+    <string name="hint_step_2_ask_card">Bitten Sie um eine Visitenkarte</string>
+    <string name="hint_step_2_ask_card_continue">, um den Kontakt nicht zu verlieren.</string>
+    <string name="hint_step_2_ask_card_product">Bitten Sie um eine Visitenkarte von einem Mitarbeiter des Unternehmens</string>
+    <string name="hint_step_2_ask_card_continue_product">, um den Kontakt nicht zu verlieren.</string>
+    <string name="hint_step_3_wait_for_data">Warten Sie einfach bis die Daten geladen werden. </string>
+    <string name="hint_step_3_wait_for_data_continue">Manchmal ist das alles, was Sie machen müssen.</string>
+
+    <string name="and">\ und</string>
+
+    <plurals name="products">
+        <item quantity="one">\ %1$d Produkt</item>
+        <item quantity="many">\ %1$d Produkte</item>
+        <item quantity="other">\ %1$d Produkte</item>
+    </plurals>
+
+    <plurals name="badges">
+        <item quantity="one">\ %1$d Badge</item>
+        <item quantity="many">\ %1$d Badges</item>
+        <item quantity="other">\ %1$d Badges</item>
+    </plurals>
+
+    <string name="i_accept_user_agreement">Ich akzeptiere die AGBs</string>
+
+    <string name="error_visitor_denied">Die Funktion des Besucherscans wurde vom Veranstalter für diese Ausstellung deaktiviert.</string>
+
+    <!-- STATISTICS -->
+    <string name="collected_data">Erfasste Daten</string>
+    <string name="by_leader">Bester/e Mitarbeiter/in</string>
+    <string name="by_you">Von Ihnen erfasst</string>
+    <string name="by_company">Ihr Unternehmen</string>
+    <string name="by_company_leader">Bestes Unternehmen</string>
+    <string name="by_standmen">Nach Standmitarbeiter</string>
+    <string name="by_companies">Nach Unternehmen</string>
+
+    <string name="pending_badge_description_title">Leider wurde der Badge nicht erkannt</string>
+
+    <string name="pending_product_description_title">Leider wurde der QR-Code nicht erkannt</string>
+
+    <string name="tech_support">Support</string>
+
+
+    <string name="storage_count_mb">%1$s MB</string>
+    <string name="storage_count_gb">%1$s GB</string>
+
+    <string name="you_invited_by">Вы приглашены в компанию</string>
+    <string name="invite_company_word">Компания</string>
+    <string name="offers_to_you_invite">предлагает стать ее сотрудником</string>
+
+</resources>
