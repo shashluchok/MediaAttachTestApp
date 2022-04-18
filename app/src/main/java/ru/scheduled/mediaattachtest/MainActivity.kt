@@ -7,6 +7,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import com.github.florent37.kotlin.pleaseanimate.please
 import kotlinx.android.synthetic.main.activity_main.*
+import ru.leadfrog.features.detail.media_attachments.media_sketch.IOnBackPressed
 import ru.scheduled.mediaattachtest.ui.base.BaseActivity
 
 
@@ -50,6 +51,39 @@ class MainActivity : BaseActivity() {
         }.start()
     }
 
+    override fun onBackPressed() {
+            if (popUpAlert == null) {
+
+                val fragment =
+                    navHostFragment?.childFragmentManager?.fragments?.last()
+                if (fragment is IOnBackPressed) {
+                    (fragment as? IOnBackPressed)?.onBackPressed()?.let {
+                        if (it) {
+                            super.onBackPressed()
+                        } else {
+                            /*if (fragment.childFragmentManager.fragments.isNotEmpty()) {
+                                val m = fragment.childFragmentManager.fragments.last()
+                                val n = m.childFragmentManager.fragments.last()
+                                if (n is IOnBackPressed) {
+                                    (n as? IOnBackPressed)?.onBackPressed()?.let {
+                                        if (it) {
+                                            super.onBackPressed()
+                                        } else {
+                                            return
+                                        }
+                                    }
+                                }
+                            } else {
+                                return
+                            }*/
+                            return
+                        }
+                    }
+                } else {
+                    super.onBackPressed()
+                }
+            }
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

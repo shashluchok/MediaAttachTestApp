@@ -63,7 +63,7 @@
         android:label="ImageCropFragment" />
     <fragment
         android:id="@+id/startFragment"
-        android:name="ru.leadfrog.common.ui.camera_capture.StartFragment"
+        android:name="ru.scheduled.mediaattachtest.ui.StartFragment"
         android:label="StartFragment" >
         <action
             android:id="@+id/action_startFragment_to_mediaNotesFragment"

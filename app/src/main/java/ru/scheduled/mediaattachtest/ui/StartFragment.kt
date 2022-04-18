@@ -1,4 +1,4 @@
-package ru.leadfrog.common.ui.camera_capture
+package ru.scheduled.mediaattachtest.ui
 
 import android.Manifest
 import android.app.Activity

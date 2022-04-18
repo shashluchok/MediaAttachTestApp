@@ -2,6 +2,7 @@ package ru.scheduled.mediaattachtest.ui.media_attachments.camera_capture.image_c
 
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -49,11 +50,14 @@ class ImageCropFragment : BaseFragment() {
     override val layoutResId: Int
         get() = R.layout.fragment_image_crop
 
-
+    override fun onDestroyView() {
+        super.onDestroyView()
+        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
 
         viewModel.state.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             when (it) {

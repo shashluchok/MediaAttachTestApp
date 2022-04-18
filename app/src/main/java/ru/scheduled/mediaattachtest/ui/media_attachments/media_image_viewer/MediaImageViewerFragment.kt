@@ -8,13 +8,15 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_media_image_viewer.*
 import org.koin.android.ext.android.inject
+import ru.scheduled.mediaattachmentslibrary.MediaRecyclerView
+import ru.scheduled.mediaattachtest.MainActivity
 import ru.scheduled.mediaattachtest.R
 import ru.scheduled.mediaattachtest.db.media_uris.DbMediaNotes
 import ru.scheduled.mediaattachtest.ui.base.BaseFragment
 import ru.scheduled.mediaattachtest.ui.media_attachments.MediaConstants.Companion.CURRENT_SHARD_ID
 import ru.scheduled.mediaattachtest.ui.media_attachments.MediaConstants.Companion.MEDIA_NOTE
-import ru.scheduled.mediaattachtest.ui.media_attachments.media_notes.CustomRecyclerView
 import ru.scheduled.mediaattachtest.ui.media_attachments.media_notes.toDbMediaNote
+import ru.scheduled.mediaattachtest.ui.media_attachments.media_notes.toMediaNote
 
 
 class MediaImageViewerFragment : BaseFragment() {
@@ -29,11 +31,7 @@ class MediaImageViewerFragment : BaseFragment() {
     private lateinit var listOfNotes: List<DbMediaNotes>
 
     private var currentIndex = 0
-    private var clickedMediaNote:CustomRecyclerView.MediaNote? = null
-
-
-
-
+    private var clickedMediaNote: MediaRecyclerView.MediaNote? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,29 +50,29 @@ class MediaImageViewerFragment : BaseFragment() {
             setOnTryToLeaveCallback {
                 findNavController().popBackStack()
             }
-            setOnDeleteClickedCallback{ uri,index ->
-                viewModel.deleteMediaNote()
+            setOnDeleteClickedCallback{
+                (requireActivity() as MainActivity).showPopupVerticalOptions(
+                    topHeaderMessage = " Удаление заметки",
+                    secondHeaderMessage = "Вы действительно хотите удалить заметку?",
+                    topActionText = "Удалить",
+                    middleActionText = "Отмена",
+                    topActionCallback = {
+                        viewModel.deleteMediaNote(it.id)
+                    }
+                )
             }
         }
 
-        /*viewModel.state.observe(viewLifecycleOwner, Observer { state ->
-            when (state) {
-                is MediaNotesStates.ErrorState -> {
-
-                }
-                MediaNotesStates.MediaNoteRemovedState -> {
-                }
-
-            }
-
-        })*/
         clickedMediaNote?.let{
             val dbNote = it.toDbMediaNote()
             viewModel.getMediaUrisByType(shardId, dbNote.mediaType)?.observe(viewLifecycleOwner, Observer {
                 listOfNotes = it
+                if(listOfNotes.isEmpty()) {
+                    findNavController().popBackStack()
+                    return@Observer
+                }
                 currentIndex = it.indexOfFirst { it.id == dbNote.id }
-                mediaViewer.setImageUris(listOfNotes.map { it.value },currentIndex)
-                if(listOfNotes.isEmpty()) findNavController().popBackStack()
+                mediaViewer.setMediaNotes(it.map { it.toMediaNote() },currentIndex)
             })
         }
 
