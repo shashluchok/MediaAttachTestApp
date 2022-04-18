@@ -11,7 +11,7 @@ android {
     defaultConfig {
         applicationId "ru.scheduled.mediaattachtest"
         minSdk 21
-        targetSdk 31
+        targetSdk 32
         versionCode 1
         versionName "1.0"
 
@@ -97,4 +97,6 @@ def koin_version= "3.1.6"
     implementation 'com.github.shashluchok:MediaAttachments:0.7.2'
 
     implementation 'com.github.florent37:kotlinpleaseanimate:1.0.2'
+
+    implementation 'androidx.work:work-runtime-ktx:2.7.0'
 }
