@@ -2,8 +2,10 @@ package ru.scheduled.mediaattachtest.ui.media_attachments.media_notes
 
 import android.content.Context
 import android.media.MediaPlayer
+import android.os.Parcelable
 import android.util.AttributeSet
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.parcel.Parcelize
 import ru.scheduled.mediaattachtest.ui.media_attachments.media_notes.adapters.MediaNotesAdapter
 
 class CustomRecyclerView : RecyclerView {
@@ -40,11 +42,13 @@ class CustomRecyclerView : RecyclerView {
 
     fun initRecycler(
         mediaPlayer: MediaPlayer,
-        onItemsSelected: (List<MediaNote>) -> Unit
+        onItemsSelected: (List<MediaNote>) -> Unit,
+        onItemClicked: (MediaNote) -> Unit
 
     ) {
         this.adapter = MediaNotesAdapter(
-            onItemsSelected = onItemsSelected
+            onItemsSelected = onItemsSelected,
+            onItemClicked = onItemClicked
         ).also {
             it.setMediaPlayer(mediaPlayer)
         }
@@ -67,6 +71,7 @@ class CustomRecyclerView : RecyclerView {
         (this.adapter as MediaNotesAdapter).stopSelecting()
     }
 
+    @Parcelize
     data class MediaNote(
         val id:String,
         val mediaType: MediaItemTypes,
@@ -77,5 +82,5 @@ class CustomRecyclerView : RecyclerView {
         val timeStamp:Long,
         var isChosen:Boolean = false
 
-    )
+    ):Parcelable
 }

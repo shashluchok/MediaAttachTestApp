@@ -10,14 +10,17 @@
         <entry key="..\:/Users/Professional/AndroidStudioProjects/MediaAttachTest/app/src/main/res/drawable/clcikable_text.xml" value="0.219" />
         <entry key="..\:/Users/Professional/AndroidStudioProjects/MediaAttachTest/app/src/main/res/drawable/close_edit.xml" value="0.2635" />
         <entry key="..\:/Users/Professional/AndroidStudioProjects/MediaAttachTest/app/src/main/res/drawable/text_note.xml" value="0.219" />
-        <entry key="..\:/Users/Professional/AndroidStudioProjects/MediaAttachTest/app/src/main/res/layout/activity_main.xml" value="0.26197916666666665" />
+        <entry key="..\:/Users/Professional/AndroidStudioProjects/MediaAttachTest/app/src/main/res/layout/activity_main.xml" value="0.254416961130742" />
         <entry key="..\:/Users/Professional/AndroidStudioProjects/MediaAttachTest/app/src/main/res/layout/fragment_camera.xml" value="0.28020833333333334" />
         <entry key="..\:/Users/Professional/AndroidStudioProjects/MediaAttachTest/app/src/main/res/layout/fragment_import_options.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Professional/AndroidStudioProjects/MediaAttachTest/app/src/main/res/layout/fragment_location.xml" value="0.28020833333333334" />
+        <entry key="..\:/Users/Professional/AndroidStudioProjects/MediaAttachTest/app/src/main/res/layout/fragment_media_image_viewer.xml" value="0.22" />
         <entry key="..\:/Users/Professional/AndroidStudioProjects/MediaAttachTest/app/src/main/res/layout/fragment_media_notes.xml" value="0.22" />
         <entry key="..\:/Users/Professional/AndroidStudioProjects/MediaAttachTest/app/src/main/res/layout/fragment_media_sketch.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Professional/AndroidStudioProjects/MediaAttachTest/app/src/main/res/layout/fragment_media_video_viewer.xml" value="0.28020833333333334" />
         <entry key="..\:/Users/Professional/AndroidStudioProjects/MediaAttachTest/app/src/main/res/layout/fragment_start.xml" value="0.18" />
+        <entry key="..\:/Users/Professional/AndroidStudioProjects/MediaAttachTest/app/src/main/res/layout/item_media_note_photo.xml" value="0.4427083333333333" />
+        <entry key="..\:/Users/Professional/AndroidStudioProjects/MediaAttachTest/app/src/main/res/layout/item_media_note_sketch.xml" value="0.4427083333333333" />
         <entry key="..\:/Users/Professional/AndroidStudioProjects/MediaAttachTest/app/src/main/res/layout/item_media_note_text.xml" value="0.28020833333333334" />
         <entry key="..\:/Users/Professional/AndroidStudioProjects/MediaAttachTest/app/src/main/res/layout/item_media_note_video.xml" value="0.28020833333333334" />
         <entry key="..\:/Users/Professional/AndroidStudioProjects/MediaAttachTest/app/src/main/res/layout/item_media_notes.xml" value="0.28020833333333334" />

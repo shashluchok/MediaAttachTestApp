@@ -16,6 +16,18 @@ class MediaImageViewerViewModel(
 
     private var typedMediaUris:LiveData<List<DbMediaNotes>>? = null
 
+    fun deleteMediaNote(id:String){
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val mediaNote = mediaNotesInteractor.getMediaNoteById(id)
+                mediaNotesInteractor.removeMediaNotes(listOf(mediaNote))
+            }
+            catch (e:Exception){
+                e.printStackTrace()
+            }
+        }
+    }
+
     fun deleteFile(path:String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {

@@ -10,6 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.koin.android.ext.android.inject
+import ru.scheduled.mediaattachtest.MainActivity
 import ru.scheduled.mediaattachtest.R
 import ru.scheduled.mediaattachtest.ui.base.BaseFragment
 import ru.scheduled.mediaattachtest.ui.media_attachments.MediaConstants.Companion.CURRENT_SHARD_ID
@@ -54,11 +55,11 @@ class ImageCropFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-
         viewModel.state.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             when (it) {
                 is ImageCropStates.BitmapSavedState -> {
                     findNavController().popBackStack()
+                    (requireActivity() as MainActivity).hideLoader()
                 }
                 is ImageCropStates.ErrorState -> {
                     //..
@@ -74,6 +75,7 @@ class ImageCropFragment : BaseFragment() {
                                 setImageBitmap(bitmap)
                                 setImageText(it.mediaNote.imageNoteText)
                             }
+                            (requireActivity() as MainActivity).hideLoader()
                         }
                     }
                 }
@@ -89,6 +91,7 @@ class ImageCropFragment : BaseFragment() {
                             .get()
                     withContext(Dispatchers.Main) {
                         setImageBitmap(bitmap)
+                        (requireActivity() as MainActivity).hideLoader()
                     }
                 }
             }
@@ -99,6 +102,7 @@ class ImageCropFragment : BaseFragment() {
                 findNavController().popBackStack()
             }
             setOnCompleteCallback { bitmap, text ->
+                (requireActivity() as MainActivity).showLoader()
                 currentPhotoPath?.let{
                     viewModel.deleteOriginalPhoto(it)
                 }

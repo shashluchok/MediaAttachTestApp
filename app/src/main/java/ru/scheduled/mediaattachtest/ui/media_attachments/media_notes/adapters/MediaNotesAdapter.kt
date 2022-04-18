@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.fragment_media_sketch.view.*
 import kotlinx.android.synthetic.main.item_media_note_photo.view.*
 import kotlinx.android.synthetic.main.item_media_note_sketch.view.*
 import kotlinx.android.synthetic.main.item_media_note_text.view.*
@@ -27,6 +28,7 @@ import java.util.*
 
 class MediaNotesAdapter(
     private val onItemsSelected: (List<CustomRecyclerView.MediaNote>) -> Unit,
+    private val onItemClicked: (CustomRecyclerView.MediaNote)->Unit
 ) : RecyclerView.Adapter<MediaNotesAdapter.NotesViewHolder>() {
 
     class NotesViewHolder(v: View) : RecyclerView.ViewHolder(v)
@@ -110,9 +112,12 @@ class MediaNotesAdapter(
         val contentView: View?
         val checkBox: ImageView?
         val selectionView: View?
+        var viewToSetOnClickListener:View? = null
+
         when (getItemViewType(position)) {
 
             TYPE_SKETCH -> {
+                viewToSetOnClickListener = holder.itemView.item_media_note_sketch_cv
                 selectionView = holder.itemView.selection_view_sketch
                 checkBox = holder.itemView.note_checkbox_sketch
                 contentView = holder.itemView.item_media_note_sketch_cv
@@ -121,6 +126,7 @@ class MediaNotesAdapter(
 
             }
             TYPE_VOICE -> {
+                viewToSetOnClickListener = null
                 selectionView = holder.itemView.selection_view_voice
                 checkBox = holder.itemView.note_checkbox_voice
                 contentView = holder.itemView.visualizer_view
@@ -176,6 +182,7 @@ class MediaNotesAdapter(
 
             }
             TYPE_PHOTO -> {
+                viewToSetOnClickListener = holder.itemView.media_note_photo_iv
                 selectionView = holder.itemView.selection_view_photo
                 contentView = holder.itemView.item_media_note_photo_cv
                 checkBox = holder.itemView.note_checkbox_photo
@@ -190,16 +197,22 @@ class MediaNotesAdapter(
                 }
             }
             TYPE_TEXT -> {
+                viewToSetOnClickListener = null
                 selectionView=  holder.itemView.selection_view_text
                 checkBox = holder.itemView.note_checkbox_text
                 contentView = holder.itemView.note_text_cl
                 holder.itemView.item_media_note_text_tv.setText(mediaList[position].value)
             }
             else -> {
+                viewToSetOnClickListener = null
                 checkBox = null
                 contentView = null
                 selectionView = null
             }
+        }
+
+        viewToSetOnClickListener?.setOnClickListener{
+            onItemClicked.invoke(mediaList[position])
         }
 
         selectionView?.isVisible = isSelecting

@@ -31,17 +31,16 @@ import org.koin.android.ext.android.inject
 import ru.leadfrog.common.ActivityRequestCodes.Companion.ACTIVITY_REQUEST_CODE_PICK_PHOTO
 import ru.leadfrog.common.PermissionRequestCodes.Companion.PERMISSION_REQUEST_CODE_CAMERA
 import ru.leadfrog.common.PermissionRequestCodes.Companion.PERMISSION_REQUEST_CODE_STORAGE
-import ru.scheduled.mediaattachmentslibrary.ToolTip
 import ru.scheduled.mediaattachtest.MainActivity
 import ru.scheduled.mediaattachtest.R
 import ru.scheduled.mediaattachtest.db.media_uris.DbMediaNotes
 import ru.scheduled.mediaattachtest.isVisible
-import ru.scheduled.mediaattachtest.toPx
 import ru.scheduled.mediaattachtest.ui.base.BaseFragment
 import ru.scheduled.mediaattachtest.ui.media_attachments.MediaConstants.Companion.CURRENT_SHARD_ID
 import ru.scheduled.mediaattachtest.ui.media_attachments.MediaConstants.Companion.EXISTING_DB_MEDIA_NOTE_ID
 import ru.scheduled.mediaattachtest.ui.media_attachments.MediaConstants.Companion.EXISTING_PHOTO_PATH
 import ru.scheduled.mediaattachtest.ui.media_attachments.MediaConstants.Companion.IS_NEED_TO_SAVE_TO_GALLERY
+import ru.scheduled.mediaattachtest.ui.media_attachments.MediaConstants.Companion.MEDIA_NOTE
 import java.util.*
 
 const val SHARD_ID = "123"
@@ -255,6 +254,13 @@ class MediaNotesFragment : BaseFragment() {
 //                        changeRecyclerPadding(isGrowing = true)
                         mediaToolbarView.hideMediaEditingToolbar()
                     }
+                },
+                onItemClicked = { note ->
+                    val bundle = Bundle().also {
+                        it.putParcelable(MEDIA_NOTE, note)
+                        it.putString(CURRENT_SHARD_ID, shardId)
+                    }
+                    findNavController().navigate(R.id.action_mediaNotesFragment_to_mediaImageViewerFragment,bundle)
                 }
 
             )

@@ -2,18 +2,19 @@ package ru.scheduled.mediaattachtest.ui.media_attachments.media_image_viewer
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.*
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_media_image_viewer.*
 import org.koin.android.ext.android.inject
 import ru.scheduled.mediaattachtest.R
 import ru.scheduled.mediaattachtest.db.media_uris.DbMediaNotes
 import ru.scheduled.mediaattachtest.ui.base.BaseFragment
 import ru.scheduled.mediaattachtest.ui.media_attachments.MediaConstants.Companion.CURRENT_SHARD_ID
-import ru.scheduled.mediaattachtest.ui.media_attachments.MediaConstants.Companion.INDEX_OF_IMAGE_CLICKED
-import ru.scheduled.mediaattachtest.ui.media_attachments.MediaConstants.Companion.MEDIA_TYPE
-import ru.scheduled.mediaattachtest.ui.media_attachments.media_notes.MediaNotesStates
+import ru.scheduled.mediaattachtest.ui.media_attachments.MediaConstants.Companion.MEDIA_NOTE
+import ru.scheduled.mediaattachtest.ui.media_attachments.media_notes.CustomRecyclerView
+import ru.scheduled.mediaattachtest.ui.media_attachments.media_notes.toDbMediaNote
 
 
 class MediaImageViewerFragment : BaseFragment() {
@@ -23,11 +24,12 @@ class MediaImageViewerFragment : BaseFragment() {
 
     private val viewModel by inject<MediaImageViewerViewModel>()
 
-    private lateinit var mediaType: String
+
     private lateinit var shardId: String
     private lateinit var listOfNotes: List<DbMediaNotes>
 
     private var currentIndex = 0
+    private var clickedMediaNote:CustomRecyclerView.MediaNote? = null
 
 
 
@@ -36,9 +38,8 @@ class MediaImageViewerFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            mediaType = it.getString(MEDIA_TYPE) ?: ""
-            currentIndex = it.getInt(INDEX_OF_IMAGE_CLICKED) as? Int ?: 0
             shardId = it.getString(CURRENT_SHARD_ID) ?: ""
+            clickedMediaNote = it.getParcelable(MEDIA_NOTE)
         }
     }
 
@@ -51,9 +52,12 @@ class MediaImageViewerFragment : BaseFragment() {
             setOnTryToLeaveCallback {
                 findNavController().popBackStack()
             }
+            setOnDeleteClickedCallback{ uri,index ->
+                viewModel.deleteMediaNote()
+            }
         }
 
-        viewModel.state.observe(viewLifecycleOwner, Observer { state ->
+        /*viewModel.state.observe(viewLifecycleOwner, Observer { state ->
             when (state) {
                 is MediaNotesStates.ErrorState -> {
 
@@ -63,13 +67,18 @@ class MediaImageViewerFragment : BaseFragment() {
 
             }
 
-        })
+        })*/
+        clickedMediaNote?.let{
+            val dbNote = it.toDbMediaNote()
+            viewModel.getMediaUrisByType(shardId, dbNote.mediaType)?.observe(viewLifecycleOwner, Observer {
+                listOfNotes = it
+                currentIndex = it.indexOfFirst { it.id == dbNote.id }
+                mediaViewer.setImageUris(listOfNotes.map { it.value },currentIndex)
+                if(listOfNotes.isEmpty()) findNavController().popBackStack()
+            })
+        }
 
 
-        viewModel.getMediaUrisByType(shardId, mediaType)?.observe(this, Observer {
-            listOfNotes = it
-            mediaViewer.setImageUris(listOfNotes.map { it.value },currentIndex)
-        })
 
     }
 

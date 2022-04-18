@@ -10,6 +10,7 @@ import android.os.*
 import android.provider.MediaStore
 import android.view.*
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.navigation.NavOptions
@@ -17,7 +18,9 @@ import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_camera.*
 import org.koin.android.ext.android.inject
 import ru.leadfrog.common.ActivityRequestCodes
+import ru.leadfrog.common.ActivityRequestCodes.Companion.ACTIVITY_REQUEST_CODE_PICK_PHOTO
 import ru.leadfrog.common.PermissionRequestCodes
+import ru.scheduled.mediaattachtest.MainActivity
 import ru.scheduled.mediaattachtest.R
 import ru.scheduled.mediaattachtest.ui.base.BaseFragment
 import ru.scheduled.mediaattachtest.ui.media_attachments.MediaConstants.Companion.CURRENT_SHARD_ID
@@ -47,25 +50,31 @@ class CameraCaptureFragment: BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getLastCameraImage()
-        camera_capture_view.setOnPhotoSavedCallback {photoFile->
-            moveToImageCropFragment(photoFile.path.toString())
-        }
+        camera_capture_view.apply {
+            setOnPhotoSavedCallback {photoFile->
+                    moveToImageCropFragment(photoFile.path.toString())
+            }
+            setOnCloseClickedCallback {
+                findNavController().popBackStack()
+            }
+            setOnGalleryClickedCallback {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (ContextCompat.checkSelfPermission(requireActivity() as MainActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(requireActivity() as MainActivity, arrayOf(
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE), 100100)
+                    }
+                    else {
+                        val loadIntent = Intent(Intent.ACTION_PICK,
+                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
 
-        viewModel.state.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            when (it) {
-                is CameraCaptureStates.UriLoadedState -> {
-                    if (it.uri != "") {
-
+                        requireActivity().startActivityForResult(loadIntent, ACTIVITY_REQUEST_CODE_PICK_PHOTO)
                     }
                 }
-                is CameraCaptureStates.ErrorState -> {
-                    // ...
-                }
-                is CameraCaptureStates.VideoSavedState -> {
-                    findNavController().popBackStack()
-                }
             }
-        })
+            setOnPhotoClickedCallback {
+                (requireActivity() as MainActivity).showLoader()
+            }
+        }
 
     }
 
@@ -99,7 +108,7 @@ class CameraCaptureFragment: BaseFragment() {
     }
 
     private fun moveToImageCropFragment(photoPath: String) {
-
+        (requireActivity() as MainActivity).showLoader()
         val navOptions = NavOptions.Builder().setPopUpTo(R.id.cameraCaptureFragment, inclusive = true).build()
 
         findNavController().navigate(R.id.action_cameraCaptureFragment_to_imageCropFragment, bundleOf(
