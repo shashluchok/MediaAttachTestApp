@@ -94,7 +94,7 @@ def koin_version= "3.1.6"
     implementation "com.squareup.retrofit2:converter-gson:2.9.0"
 
     //Media
-    implementation 'com.github.shashluchok:MediaAttachments:0.7.0'
+    implementation 'com.github.shashluchok:MediaAttachments:0.7.2'
 
     implementation 'com.github.florent37:kotlinpleaseanimate:1.0.2'
 }
