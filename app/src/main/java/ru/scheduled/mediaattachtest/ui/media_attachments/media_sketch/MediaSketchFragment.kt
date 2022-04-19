@@ -108,33 +108,63 @@ class MediaSketchFragment : BaseFragment(),IOnBackPressed {
         toolbar_default.apply {
             toolbar_back_fl.setOnClickListener {
                 if(media_sketch_drawing_view.wasAnythingDrawn()){
-                    (requireActivity() as MainActivity).showPopupVerticalOptions(
-                        topHeaderMessage = "Ваш скетч не сохранен",
-                        secondHeaderMessage = "Нажмите кнопку Сохранить, чтобы применить изменения",
-                        topActionText = "Удалить",
-                        middleActionText = "Отмена",
-                        bottomActionText = "Сохранить",
-                        bottomActionCallback = {
-                            if(sketchToEdit==null) {
-                                media_sketch_drawing_view.getSketchByteArray()?.let{ bitmap->
+                        if(currentDbMediaNoteId!=null){
+                            (requireActivity() as MainActivity).showPopupVerticalOptions(
+                                topHeaderMessage = "Сохранить изменения?",
+                                topActionText = "Отмена",
+                                middleActionText = "Сохранить",
+                                middleActionCallback = {
                                     if(sketchToEdit==null) {
-                                        viewModel.saveMediaNoteBitmap( bitmap,shardId, "sketch")
+                                        media_sketch_drawing_view.getSketchByteArray()?.let{ bitmap->
+                                            if(sketchToEdit==null) {
+                                                viewModel.saveMediaNoteBitmap( bitmap,shardId, "sketch")
+                                            }
+                                        }
                                     }
-                                }
-                            }
-                            else {
-                                media_sketch_drawing_view.getSketchByteArray()?.let{ bitmap->
-                                    sketchToEdit?.let{ mediaNote ->
-                                        viewModel.updateSketchMediaNote(bitmap,shardId, mediaNote)
+                                    else {
+                                        media_sketch_drawing_view.getSketchByteArray()?.let{ bitmap->
+                                            sketchToEdit?.let{ mediaNote ->
+                                                viewModel.updateSketchMediaNote(bitmap,shardId, mediaNote)
+                                            }
+                                        }
                                     }
-                                }
-                            }
 
-                        },
-                        topActionCallback = {
-                            findNavController().popBackStack()
+                                },
+                                topActionCallback = {
+
+                                }
+                            )
                         }
-                    )
+                    else {
+                            (requireActivity() as MainActivity).showPopupVerticalOptions(
+                                topHeaderMessage = "Ваш скетч не сохранен",
+                                secondHeaderMessage = "Нажмите кнопку Сохранить, чтобы применить изменения",
+                                topActionText = "Удалить",
+                                middleActionText = "Отмена",
+                                bottomActionText = "Сохранить",
+                                bottomActionCallback = {
+                                    if(sketchToEdit==null) {
+                                        media_sketch_drawing_view.getSketchByteArray()?.let{ bitmap->
+                                            if(sketchToEdit==null) {
+                                                viewModel.saveMediaNoteBitmap( bitmap,shardId, "sketch")
+                                            }
+                                        }
+                                    }
+                                    else {
+                                        media_sketch_drawing_view.getSketchByteArray()?.let{ bitmap->
+                                            sketchToEdit?.let{ mediaNote ->
+                                                viewModel.updateSketchMediaNote(bitmap,shardId, mediaNote)
+                                            }
+                                        }
+                                    }
+
+                                },
+                                topActionCallback = {
+                                    findNavController().popBackStack()
+                                }
+                            )
+                        }
+
                 }
                 else {
                     findNavController().popBackStack()
@@ -166,33 +196,62 @@ class MediaSketchFragment : BaseFragment(),IOnBackPressed {
 
     override fun onBackPressed(): Boolean {
         if(media_sketch_drawing_view.wasAnythingDrawn()){
-            (requireActivity() as MainActivity).showPopupVerticalOptions(
-                topHeaderMessage = "Ваш скетч не сохранен",
-                secondHeaderMessage = "Нажмите кнопку Сохранить, чтобы применить изменения",
-                topActionText = "Удалить",
-                middleActionText = "Отмена",
-                bottomActionText = "Сохранить",
-                bottomActionCallback = {
-                    if(sketchToEdit==null) {
-                        media_sketch_drawing_view.getSketchByteArray()?.let{ bitmap->
-                            if(sketchToEdit==null) {
-                                viewModel.saveMediaNoteBitmap( bitmap,shardId, "sketch")
+            if(currentDbMediaNoteId!=null){
+                (requireActivity() as MainActivity).showPopupVerticalOptions(
+                    topHeaderMessage = "Сохранить изменения?",
+                    topActionText = "Отмена",
+                    middleActionText = "Сохранить",
+                    middleActionCallback = {
+                        if(sketchToEdit==null) {
+                            media_sketch_drawing_view.getSketchByteArray()?.let{ bitmap->
+                                if(sketchToEdit==null) {
+                                    viewModel.saveMediaNoteBitmap( bitmap,shardId, "sketch")
+                                }
                             }
                         }
-                    }
-                    else {
-                        media_sketch_drawing_view.getSketchByteArray()?.let{ bitmap->
-                            sketchToEdit?.let{ mediaNote ->
-                                viewModel.updateSketchMediaNote(bitmap,shardId, mediaNote)
+                        else {
+                            media_sketch_drawing_view.getSketchByteArray()?.let{ bitmap->
+                                sketchToEdit?.let{ mediaNote ->
+                                    viewModel.updateSketchMediaNote(bitmap,shardId, mediaNote)
+                                }
                             }
                         }
-                    }
 
-                },
-                topActionCallback = {
-                    findNavController().popBackStack()
-                }
-            )
+                    },
+                    topActionCallback = {
+
+                    }
+                )
+            }
+            else {
+                (requireActivity() as MainActivity).showPopupVerticalOptions(
+                    topHeaderMessage = "Ваш скетч не сохранен",
+                    secondHeaderMessage = "Нажмите кнопку Сохранить, чтобы применить изменения",
+                    topActionText = "Удалить",
+                    middleActionText = "Отмена",
+                    bottomActionText = "Сохранить",
+                    bottomActionCallback = {
+                        if(sketchToEdit==null) {
+                            media_sketch_drawing_view.getSketchByteArray()?.let{ bitmap->
+                                if(sketchToEdit==null) {
+                                    viewModel.saveMediaNoteBitmap( bitmap,shardId, "sketch")
+                                }
+                            }
+                        }
+                        else {
+                            media_sketch_drawing_view.getSketchByteArray()?.let{ bitmap->
+                                sketchToEdit?.let{ mediaNote ->
+                                    viewModel.updateSketchMediaNote(bitmap,shardId, mediaNote)
+                                }
+                            }
+                        }
+
+                    },
+                    topActionCallback = {
+                        findNavController().popBackStack()
+                    }
+                )
+            }
            return false
         } else return true
     }
