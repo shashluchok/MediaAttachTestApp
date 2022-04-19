@@ -8,10 +8,8 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_media_image_viewer.*
 import org.koin.android.ext.android.inject
-import ru.scheduled.mediaattachmentslibrary.MediaRecyclerView
 import ru.scheduled.mediaattachtest.MainActivity
 import ru.scheduled.mediaattachtest.R
-import ru.scheduled.mediaattachtest.db.media_uris.DbMediaNotes
 import ru.scheduled.mediaattachtest.ui.base.BaseFragment
 import ru.scheduled.mediaattachtest.ui.media_attachments.MediaConstants.Companion.CURRENT_SHARD_ID
 import ru.scheduled.mediaattachtest.ui.media_attachments.MediaConstants.Companion.MEDIA_NOTE
@@ -28,10 +26,9 @@ class MediaImageViewerFragment : BaseFragment() {
 
 
     private lateinit var shardId: String
-    private lateinit var listOfNotes: List<DbMediaNotes>
 
-    private var currentIndex = 0
-    private var clickedMediaNote: MediaRecyclerView.MediaNote? = null
+    private var currentIndex:Int? = null
+    private var clickedMediaNote: ru.scheduled.mediaattachmentslibrary.MediaRecyclerView.MediaNote? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,13 +63,16 @@ class MediaImageViewerFragment : BaseFragment() {
         clickedMediaNote?.let{
             val dbNote = it.toDbMediaNote()
             viewModel.getMediaUrisByType(shardId, dbNote.mediaType)?.observe(viewLifecycleOwner, Observer {
-                listOfNotes = it
-                if(listOfNotes.isEmpty()) {
+                if(it.isEmpty()) {
                     findNavController().popBackStack()
                     return@Observer
                 }
-                currentIndex = it.indexOfFirst { it.id == dbNote.id }
-                mediaViewer.setMediaNotes(it.map { it.toMediaNote() },currentIndex)
+                else {
+                    currentIndex = it.indexOfFirst { it.id == dbNote.id }
+
+                    mediaViewer.setMediaNotes(it.map { it.toMediaNote() },currentIndex?:0)
+                }
+
             })
         }
 

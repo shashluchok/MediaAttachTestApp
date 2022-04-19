@@ -31,7 +31,6 @@ import org.koin.android.ext.android.inject
 import ru.leadfrog.common.ActivityRequestCodes.Companion.ACTIVITY_REQUEST_CODE_PICK_PHOTO
 import ru.leadfrog.common.PermissionRequestCodes.Companion.PERMISSION_REQUEST_CODE_CAMERA
 import ru.leadfrog.common.PermissionRequestCodes.Companion.PERMISSION_REQUEST_CODE_STORAGE
-import ru.scheduled.mediaattachmentslibrary.MediaRecyclerView
 import ru.scheduled.mediaattachtest.MainActivity
 import ru.scheduled.mediaattachtest.R
 import ru.scheduled.mediaattachtest.db.media_uris.DbMediaNotes
@@ -126,12 +125,12 @@ class MediaNotesFragment : BaseFragment() {
                     hideKeyboard()
                     selection_toolbar_cl.isVisible = it.isNotEmpty()
                     val isCopyable =
-                        it.size == 1 && it.first().mediaType == MediaRecyclerView.MediaItemTypes.TYPE_TEXT
+                        it.size == 1 && it.first().mediaType == ru.scheduled.mediaattachmentslibrary.MediaRecyclerView.MediaItemTypes.TYPE_TEXT
 
-                    val isEditable = it.size == 1 && (listOf<MediaRecyclerView.MediaItemTypes>(
-                        MediaRecyclerView.MediaItemTypes.TYPE_TEXT,
-                        MediaRecyclerView.MediaItemTypes.TYPE_PHOTO,
-                        MediaRecyclerView.MediaItemTypes.TYPE_SKETCH
+                    val isEditable = it.size == 1 && (listOf<ru.scheduled.mediaattachmentslibrary.MediaRecyclerView.MediaItemTypes>(
+                        ru.scheduled.mediaattachmentslibrary.MediaRecyclerView.MediaItemTypes.TYPE_TEXT,
+                        ru.scheduled.mediaattachmentslibrary.MediaRecyclerView.MediaItemTypes.TYPE_PHOTO,
+                        ru.scheduled.mediaattachmentslibrary.MediaRecyclerView.MediaItemTypes.TYPE_SKETCH
                     ).contains(it.first().mediaType))
 
                     toolbar_default.isVisible = !it.isNotEmpty()
@@ -177,7 +176,7 @@ class MediaNotesFragment : BaseFragment() {
                 singleMedia?.let {
                     when (it.mediaType) {
 
-                        MediaRecyclerView.MediaItemTypes.TYPE_TEXT -> {
+                        ru.scheduled.mediaattachmentslibrary.MediaRecyclerView.MediaItemTypes.TYPE_TEXT -> {
                             onTextMediaCopied(it.value)
                         }
                         else -> {
@@ -226,7 +225,7 @@ class MediaNotesFragment : BaseFragment() {
                 val selectedItems = media_notes_recycler_view.getSelectedMediaNotes()
                 selectedItems.singleOrNull()?.let {
                     when (it.mediaType) {
-                        MediaRecyclerView.MediaItemTypes.TYPE_SKETCH -> {
+                        ru.scheduled.mediaattachmentslibrary.MediaRecyclerView.MediaItemTypes.TYPE_SKETCH -> {
                             findNavController().navigate(
                                 R.id.action_mediaNotesFragment_to_mediaSketchFragment, bundleOf(
                                     CURRENT_SHARD_ID to shardId,
@@ -234,7 +233,7 @@ class MediaNotesFragment : BaseFragment() {
                                 )
                             )
                         }
-                        MediaRecyclerView.MediaItemTypes.TYPE_PHOTO -> {
+                        ru.scheduled.mediaattachmentslibrary.MediaRecyclerView.MediaItemTypes.TYPE_PHOTO -> {
                             findNavController().navigate(
                                 R.id.action_mediaNotesFragment_to_imageCropFragment, bundleOf(
                                     CURRENT_SHARD_ID to shardId,
@@ -242,7 +241,7 @@ class MediaNotesFragment : BaseFragment() {
                                 )
                             )
                         }
-                        MediaRecyclerView.MediaItemTypes.TYPE_TEXT -> {
+                        ru.scheduled.mediaattachmentslibrary.MediaRecyclerView.MediaItemTypes.TYPE_TEXT -> {
                             cancelSelecting()
                             currentTextNoteToEdit = it.toDbMediaNote()
                             mediaToolbarView.setText(it.value)
@@ -597,16 +596,16 @@ class MediaNotesFragment : BaseFragment() {
     }
 }
 
-fun MediaRecyclerView.MediaNote.toDbMediaNote(): DbMediaNotes {
+fun ru.scheduled.mediaattachmentslibrary.MediaRecyclerView.MediaNote.toDbMediaNote(): DbMediaNotes {
     return DbMediaNotes(
         id = id,
         shardId = SHARD_ID,
         value = value,
         mediaType = when (mediaType) {
-            MediaRecyclerView.MediaItemTypes.TYPE_SKETCH -> "sketch"
-            MediaRecyclerView.MediaItemTypes.TYPE_VOICE -> "voice"
-            MediaRecyclerView.MediaItemTypes.TYPE_PHOTO -> "photo"
-            MediaRecyclerView.MediaItemTypes.TYPE_TEXT -> "text"
+            ru.scheduled.mediaattachmentslibrary.MediaRecyclerView.MediaItemTypes.TYPE_SKETCH -> "sketch"
+            ru.scheduled.mediaattachmentslibrary.MediaRecyclerView.MediaItemTypes.TYPE_VOICE -> "voice"
+            ru.scheduled.mediaattachmentslibrary.MediaRecyclerView.MediaItemTypes.TYPE_PHOTO -> "photo"
+            ru.scheduled.mediaattachmentslibrary.MediaRecyclerView.MediaItemTypes.TYPE_TEXT -> "text"
         },
         order = timeStamp,
         recognizedSpeechText = recognizedSpeechText,
@@ -616,16 +615,16 @@ fun MediaRecyclerView.MediaNote.toDbMediaNote(): DbMediaNotes {
     )
 }
 
-fun DbMediaNotes.toMediaNote(): MediaRecyclerView.MediaNote {
-    return MediaRecyclerView.MediaNote(
+fun DbMediaNotes.toMediaNote(): ru.scheduled.mediaattachmentslibrary.MediaRecyclerView.MediaNote {
+    return ru.scheduled.mediaattachmentslibrary.MediaRecyclerView.MediaNote(
         id = id,
         value = value,
         mediaType = when (mediaType) {
-            "sketch" -> MediaRecyclerView.MediaItemTypes.TYPE_SKETCH
-            "voice" -> MediaRecyclerView.MediaItemTypes.TYPE_VOICE
-            "photo" -> MediaRecyclerView.MediaItemTypes.TYPE_PHOTO
-            "text" -> MediaRecyclerView.MediaItemTypes.TYPE_TEXT
-            else -> MediaRecyclerView.MediaItemTypes.TYPE_TEXT
+            "sketch" -> ru.scheduled.mediaattachmentslibrary.MediaRecyclerView.MediaItemTypes.TYPE_SKETCH
+            "voice" -> ru.scheduled.mediaattachmentslibrary.MediaRecyclerView.MediaItemTypes.TYPE_VOICE
+            "photo" -> ru.scheduled.mediaattachmentslibrary.MediaRecyclerView.MediaItemTypes.TYPE_PHOTO
+            "text" -> ru.scheduled.mediaattachmentslibrary.MediaRecyclerView.MediaItemTypes.TYPE_TEXT
+            else -> ru.scheduled.mediaattachmentslibrary.MediaRecyclerView.MediaItemTypes.TYPE_TEXT
         },
         timeStamp = order,
         recognizedSpeechText = recognizedSpeechText,
