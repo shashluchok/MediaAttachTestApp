@@ -36,20 +36,20 @@
             <ImageView
                 android:id="@+id/selection_toolbar_cancel_iv"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="2dp"
-                android:src="@drawable/close_white"
+                android:layout_height="0dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:layout_marginTop="3dp"
+                android:src="@drawable/close"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/colorPrimary" />
+                />
 
             <TextView
                 android:id="@+id/selected_items_count_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
                 android:fontFamily="@font/roboto_bold"
                 android:textColor="@color/app_black"
                 android:textSize="@dimen/default_20sp"
