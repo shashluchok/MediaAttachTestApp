@@ -4,9 +4,9 @@ import ru.scheduled.mediaattachtest.db.media_uris.DbMediaNotes
 
 
 sealed class MediaNotesStates {
-    data class ErrorState(val text: String) : MediaNotesStates()
+    object ErrorState: MediaNotesStates()
     object MediaNoteRemovedState: MediaNotesStates()
     object MediaNoteSavedState: MediaNotesStates()
-    data class MediaNoteUpdatedState(val mediaNoteId:String): MediaNotesStates()
+    object MediaNoteUpdatedState: MediaNotesStates()
     data class MediaNoteLoadedState(val dbMediaNotes: DbMediaNotes): MediaNotesStates()
 }

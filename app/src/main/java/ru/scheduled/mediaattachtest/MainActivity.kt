@@ -13,6 +13,8 @@ import ru.scheduled.mediaattachtest.ui.base.BaseActivity
 
 class MainActivity : BaseActivity() {
 
+
+
     var navHostFragment: Fragment? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

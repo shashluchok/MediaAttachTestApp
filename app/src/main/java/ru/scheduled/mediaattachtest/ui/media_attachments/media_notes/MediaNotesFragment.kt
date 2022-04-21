@@ -18,12 +18,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.view.animation.DecelerateInterpolator
+import android.view.animation.LinearInterpolator
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import eightbitlab.com.blurview.RenderScriptBlur
+import jp.wasabeef.recyclerview.animators.LandingAnimator
 import kotlinx.android.synthetic.main.fragment_media_notes.*
 import kotlinx.android.synthetic.main.layout_toolbar_default.view.*
 import kotlinx.coroutines.*
@@ -31,6 +33,7 @@ import org.koin.android.ext.android.inject
 import ru.leadfrog.common.ActivityRequestCodes.Companion.ACTIVITY_REQUEST_CODE_PICK_PHOTO
 import ru.leadfrog.common.PermissionRequestCodes.Companion.PERMISSION_REQUEST_CODE_CAMERA
 import ru.leadfrog.common.PermissionRequestCodes.Companion.PERMISSION_REQUEST_CODE_STORAGE
+import ru.leadfrog.features.detail.media_attachments.media_sketch.IOnBackPressed
 import ru.scheduled.mediaattachtest.MainActivity
 import ru.scheduled.mediaattachtest.R
 import ru.scheduled.mediaattachtest.db.media_uris.DbMediaNotes
@@ -45,7 +48,7 @@ import java.util.*
 
 const val SHARD_ID = "123"
 
-class MediaNotesFragment : BaseFragment() {
+class MediaNotesFragment : BaseFragment(),IOnBackPressed {
     override val layoutResId: Int
         get() = R.layout.fragment_media_notes
 
@@ -157,6 +160,14 @@ class MediaNotesFragment : BaseFragment() {
             )
         }
 
+        media_notes_recycler_view.itemAnimator = LandingAnimator(LinearInterpolator())
+        media_notes_recycler_view.itemAnimator?.apply {
+            addDuration = 100
+            removeDuration = 150
+            changeDuration = 300
+            moveDuration = 100
+        }
+
         selection_toolbar_cancel_iv.setOnClickListener {
             cancelSelecting()
         }
@@ -258,7 +269,8 @@ class MediaNotesFragment : BaseFragment() {
                 media_notes_recycler_view.clipToPadding = false
             }
 
-            setOnSendTextCallback { text ->
+            setOnSendTextCallback { rawText ->
+                val text = rawText.trim()
                 if (!text.isNullOrEmpty()) {
 
                     if (currentTextNoteToEdit != null) {
@@ -337,11 +349,22 @@ class MediaNotesFragment : BaseFragment() {
             }
 
         }
-
+        /*for(i in 0..10){
+            val dbMediaNote = DbMediaNotes(
+                id = UUID.randomUUID().toString(),
+                shardId = shardId,
+                value = i.toString(),
+                mediaType = "text",
+                order = System.currentTimeMillis(),
+                recognizedSpeechText = "",
+                voiceAmplitudesList = listOf()
+            )
+            viewModel.saveDbMediaNotes(dbMediaNote)
+        }*/
 
         viewModel.getAllDbMediaNotesByShardId(shardId)?.observe(
             viewLifecycleOwner
-        ) {
+        , androidx.lifecycle.Observer{
             isListEmpty = it.isEmpty()
             (requireParentFragment()).no_media_notes_tv.visibility =
                 if (it.isEmpty()) View.VISIBLE else View.GONE
@@ -349,7 +372,7 @@ class MediaNotesFragment : BaseFragment() {
             media_notes_recycler_view.setData(sortedList.map {
                 it.toMediaNote()
             })
-        }
+        })
 
 
     }
@@ -498,6 +521,7 @@ class MediaNotesFragment : BaseFragment() {
     override fun onStop() {
         super.onStop()
         mediaPlayer?.pause()
+        mediaToolbarView.stopRecording()
         hideKeyboard()
     }
 
@@ -593,6 +617,13 @@ class MediaNotesFragment : BaseFragment() {
 
         }
 
+    }
+
+    override fun onBackPressed(): Boolean {
+        return if(media_notes_recycler_view.getSelectedMediaNotes().isEmpty()) true else {
+            cancelSelecting()
+            false
+        }
     }
 }
 

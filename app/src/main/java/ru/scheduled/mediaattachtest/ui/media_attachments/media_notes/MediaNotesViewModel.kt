@@ -17,7 +17,7 @@ class MediaNotesViewModel(private val mediaNotesInteractor: MediaNotesRepository
     fun updateMediaNote(dbMediaNote: DbMediaNotes) {
         viewModelScope.launch(Dispatchers.IO) {
             mediaNotesInteractor.updateMediaNote(dbMediaNote)
-            _state.postValue(MediaNotesStates.MediaNoteUpdatedState(dbMediaNote.id))
+            _state.postValue(MediaNotesStates.MediaNoteUpdatedState)
         }
     }
 

@@ -1,10 +1,7 @@
 package ru.leadfrog.features.detail.media_attachments.media_sketch
 
 import android.annotation.SuppressLint
-import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -21,6 +18,9 @@ import ru.scheduled.mediaattachtest.ui.media_attachments.MediaConstants.Companio
 import ru.scheduled.mediaattachtest.ui.media_attachments.MediaConstants.Companion.EXISTING_DB_MEDIA_NOTE_ID
 import ru.scheduled.mediaattachtest.ui.media_attachments.media_notes.MediaNotesStates
 import ru.scheduled.mediaattachtest.ui.media_attachments.media_sketch.MediaSketchViewModel
+import java.io.File
+import java.io.FileInputStream
+import java.io.IOException
 
 
 interface IOnBackPressed {
@@ -42,50 +42,104 @@ class MediaSketchFragment : BaseFragment(),IOnBackPressed {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let{
-            if(it.getString(CURRENT_SHARD_ID)!=null){
+        arguments?.let {
+            if (it.getString(CURRENT_SHARD_ID) != null) {
                 shardId = it.getString(CURRENT_SHARD_ID)!!
             }
-            it.getString(EXISTING_DB_MEDIA_NOTE_ID)?.let{ id->
+            it.getString(EXISTING_DB_MEDIA_NOTE_ID)?.let { id ->
                 currentDbMediaNoteId = id
             }
         }
     }
 
-    private fun onEditExistingSketch(sketchMediaNote:DbMediaNotes){
-        sketchToEdit = sketchMediaNote.also { mediaNote->
-            val drawable = BitmapDrawable.createFromPath(mediaNote.value)
-            drawable?.let{
-                media_sketch_drawing_view.setExistingSketch(it)
+    @Throws(IOException::class)
+    private fun readFileToBytes(filePath: String): ByteArray {
+        val file = File(filePath)
+        val bytes = ByteArray(file.length().toInt())
+        var fis: FileInputStream? = null
+        try {
+            fis = FileInputStream(file)
+            fis.read(bytes)
+        } finally {
+            fis?.close()
+        }
+        return bytes
+
+    }
+
+    private fun onEditExistingSketch(sketchMediaNote: DbMediaNotes) {
+        sketchToEdit = sketchMediaNote.also { mediaNote ->
+            try {
+                val bytes = readFileToBytes(mediaNote.value)
+                media_sketch_drawing_view.setExistingSketch(bytes)
+            } catch (e: Exception) {
+                e.printStackTrace()
+
             }
         }
-
     }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        media_sketch_drawing_view.setEdittingToolbarVisibility(isVisible = true)
 
-        if(currentDbMediaNoteId!=null){
-            start_drawing_tv.isVisible = false
-            currentDbMediaNoteId?.let {
-            viewModel.getDbMediaNoteById(it)
-            }
-            toolbar_default.apply {
-                toolbar_action_tv.setOnClickListener {
-                    media_sketch_drawing_view.getSketchByteArray()?.let{ bitmap->
-                            sketchToEdit?.let{ mediaNote ->
-                                viewModel.updateSketchMediaNote(bitmap,shardId, mediaNote)
-                            }
-                        }
+        media_sketch_drawing_view.apply {
+            setEdittingToolbarVisibility(isVisible = true)
+            setOnEmptyCallback { isEmpty ->
+                if (isEmpty) {
+                    toolbar_default.apply {
+                        toolbar_action_tv.setTextColor(resources.getColor(R.color.color_primary_light))
+                        toolbar_action_tv.isEnabled = false
+                        toolbar_action_tv.isClickable = false
+                    }
+                } else if (wasAnythingDrawn()) {
+                    toolbar_default.apply {
+                        toolbar_action_tv.setTextColor(resources.getColor(R.color.colorPrimary))
+                        toolbar_action_tv.isEnabled = true
+                        toolbar_action_tv.isClickable = true
+                    }
                 }
             }
         }
-        else {
-            toolbar_default.apply {
-                toolbar_action_tv.setTextColor(resources.getColor(R.color.color_primary_light))
+        toolbar_default.apply {
+
+            toolbar_action_tv.setOnClickListener {
+
+                if (currentDbMediaNoteId != null) {
+
+                    media_sketch_drawing_view.getSketchByteArray()?.let { byteArray ->
+                        sketchToEdit?.let { mediaNote ->
+                            viewModel.updateSketchMediaNote(byteArray, shardId, mediaNote)
+                        }
+                    }
+                } else {
+                    media_sketch_drawing_view.getSketchByteArray()?.let { byteArray ->
+                        viewModel.saveMediaNoteBitmap(byteArray, shardId, "sketch")
+                    }
+                }
             }
+
+            toolbar_back_fl.setOnClickListener {
+                onAttemptToLeave(
+                    isExistingSketch = currentDbMediaNoteId != null,
+                    sketchByteArray = media_sketch_drawing_view.getSketchByteArray(),
+                    wasEdited = media_sketch_drawing_view.wasAnythingDrawn()
+                )
+
+            }
+            toolbar_title.text = getString(R.string.sketch)
+            toolbar_action_tv.text = getString(R.string.ready)
+            toolbar_action_tv.visibility = View.VISIBLE
+
+        }
+
+        if (currentDbMediaNoteId != null) {
+            start_drawing_tv.isVisible = false
+            currentDbMediaNoteId?.let {
+                viewModel.getDbMediaNoteById(it)
+            }
+        } else {
+
             media_sketch_drawing_view.setOnFirstTouchCallback {
 
                 please(300) {
@@ -93,88 +147,10 @@ class MediaSketchFragment : BaseFragment(),IOnBackPressed {
                         invisible()
                     }
                 }.start()
-                toolbar_default.apply {
-                    toolbar_action_tv.setTextColor(resources.getColor(R.color.colorPrimary))
-                    toolbar_action_tv.setOnClickListener {
-                        media_sketch_drawing_view.getSketchByteArray()?.let{ bitmap->
-                            if(sketchToEdit==null) {
-                                viewModel.saveMediaNoteBitmap( bitmap,shardId, "sketch")
-                            }
-                        }
-                    }
-                }
+
             }
         }
-        toolbar_default.apply {
-            toolbar_back_fl.setOnClickListener {
-                if(media_sketch_drawing_view.wasAnythingDrawn()){
-                        if(currentDbMediaNoteId!=null){
-                            (requireActivity() as MainActivity).showPopupVerticalOptions(
-                                topHeaderMessage = "Сохранить изменения?",
-                                topActionText = "Отмена",
-                                middleActionText = "Сохранить",
-                                middleActionCallback = {
-                                    if(sketchToEdit==null) {
-                                        media_sketch_drawing_view.getSketchByteArray()?.let{ bitmap->
-                                            if(sketchToEdit==null) {
-                                                viewModel.saveMediaNoteBitmap( bitmap,shardId, "sketch")
-                                            }
-                                        }
-                                    }
-                                    else {
-                                        media_sketch_drawing_view.getSketchByteArray()?.let{ bitmap->
-                                            sketchToEdit?.let{ mediaNote ->
-                                                viewModel.updateSketchMediaNote(bitmap,shardId, mediaNote)
-                                            }
-                                        }
-                                    }
 
-                                },
-                                topActionCallback = {
-
-                                }
-                            )
-                        }
-                    else {
-                            (requireActivity() as MainActivity).showPopupVerticalOptions(
-                                topHeaderMessage = "Ваш скетч не сохранен",
-                                secondHeaderMessage = "Нажмите кнопку Сохранить, чтобы применить изменения",
-                                topActionText = "Удалить",
-                                middleActionText = "Отмена",
-                                bottomActionText = "Сохранить",
-                                bottomActionCallback = {
-                                    if(sketchToEdit==null) {
-                                        media_sketch_drawing_view.getSketchByteArray()?.let{ bitmap->
-                                            if(sketchToEdit==null) {
-                                                viewModel.saveMediaNoteBitmap( bitmap,shardId, "sketch")
-                                            }
-                                        }
-                                    }
-                                    else {
-                                        media_sketch_drawing_view.getSketchByteArray()?.let{ bitmap->
-                                            sketchToEdit?.let{ mediaNote ->
-                                                viewModel.updateSketchMediaNote(bitmap,shardId, mediaNote)
-                                            }
-                                        }
-                                    }
-
-                                },
-                                topActionCallback = {
-                                    findNavController().popBackStack()
-                                }
-                            )
-                        }
-
-                }
-                else {
-                    findNavController().popBackStack()
-                }
-            }
-            toolbar_title.text = getString(R.string.sketch)
-            toolbar_action_tv.text = getString(R.string.ready)
-            toolbar_action_tv.visibility = View.VISIBLE
-
-        }
 
         viewModel.state.observe(viewLifecycleOwner, Observer {
             when(it){
@@ -187,7 +163,13 @@ class MediaSketchFragment : BaseFragment(),IOnBackPressed {
                 is MediaNotesStates.MediaNoteLoadedState -> {
                     onEditExistingSketch(it.dbMediaNotes)
                 }
+                is MediaNotesStates.ErrorState -> {
 
+                }
+                MediaNotesStates.MediaNoteRemovedState -> {
+                    (requireActivity() as MainActivity).hideLoader()
+                    findNavController().popBackStack()
+                }
             }
 
         })
@@ -195,33 +177,54 @@ class MediaSketchFragment : BaseFragment(),IOnBackPressed {
     }
 
     override fun onBackPressed(): Boolean {
-        if(media_sketch_drawing_view.wasAnythingDrawn()){
-            if(currentDbMediaNoteId!=null){
-                (requireActivity() as MainActivity).showPopupVerticalOptions(
-                    topHeaderMessage = "Сохранить изменения?",
-                    topActionText = "Отмена",
-                    middleActionText = "Сохранить",
-                    middleActionCallback = {
-                        if(sketchToEdit==null) {
-                            media_sketch_drawing_view.getSketchByteArray()?.let{ bitmap->
-                                if(sketchToEdit==null) {
-                                    viewModel.saveMediaNoteBitmap( bitmap,shardId, "sketch")
-                                }
-                            }
-                        }
-                        else {
-                            media_sketch_drawing_view.getSketchByteArray()?.let{ bitmap->
-                                sketchToEdit?.let{ mediaNote ->
-                                    viewModel.updateSketchMediaNote(bitmap,shardId, mediaNote)
-                                }
-                            }
-                        }
+        onAttemptToLeave(
+            isExistingSketch = currentDbMediaNoteId != null,
+            sketchByteArray = media_sketch_drawing_view.getSketchByteArray(),
+            wasEdited = media_sketch_drawing_view.wasAnythingDrawn()
+        )
+        return false
+    }
 
-                    },
-                    topActionCallback = {
 
-                    }
-                )
+    private fun onAttemptToLeave (isExistingSketch:Boolean, sketchByteArray:ByteArray?, wasEdited:Boolean){
+        if(wasEdited){
+            if(isExistingSketch){
+                if(sketchByteArray == null){
+                    (requireActivity() as MainActivity).showPopupVerticalOptions(
+                        topHeaderMessage = " Удаление заметки",
+                        secondHeaderMessage = "Вы действительно хотите удалить заметку?",
+                        topActionText = "Удалить",
+                        middleActionText = "Отмена",
+                        topActionCallback = {
+                            (requireActivity() as MainActivity).showLoader()
+                            viewModel.deleteMediaNoteById(currentDbMediaNoteId!!)
+                        },
+                        middleActionCallback = {
+                            findNavController().popBackStack()
+                        })
+                }
+                else {
+                    (requireActivity() as MainActivity).showPopupVerticalOptions(
+                        topHeaderMessage = "Сохранить изменения?",
+                        topActionText = "Выйти без сохранения",
+                        middleActionText = "Сохранить",
+                        middleActionCallback = {
+
+                            sketchToEdit?.let { mediaNote ->
+                                (requireActivity() as MainActivity).showLoader()
+                                viewModel.updateSketchMediaNote(
+                                    sketchByteArray,
+                                    shardId,
+                                    mediaNote
+                                )
+                            }
+
+                        },
+                        topActionCallback = {
+                            findNavController().popBackStack()
+                        }
+                    )
+                }
             }
             else {
                 (requireActivity() as MainActivity).showPopupVerticalOptions(
@@ -231,30 +234,19 @@ class MediaSketchFragment : BaseFragment(),IOnBackPressed {
                     middleActionText = "Отмена",
                     bottomActionText = "Сохранить",
                     bottomActionCallback = {
-                        if(sketchToEdit==null) {
-                            media_sketch_drawing_view.getSketchByteArray()?.let{ bitmap->
-                                if(sketchToEdit==null) {
-                                    viewModel.saveMediaNoteBitmap( bitmap,shardId, "sketch")
-                                }
-                            }
+                        media_sketch_drawing_view.getSketchByteArray()?.let { byteArray ->
+                            viewModel.saveMediaNoteBitmap(byteArray, shardId, "sketch")
                         }
-                        else {
-                            media_sketch_drawing_view.getSketchByteArray()?.let{ bitmap->
-                                sketchToEdit?.let{ mediaNote ->
-                                    viewModel.updateSketchMediaNote(bitmap,shardId, mediaNote)
-                                }
-                            }
-                        }
-
                     },
                     topActionCallback = {
                         findNavController().popBackStack()
                     }
                 )
             }
-           return false
-        } else return true
+        }
+        else {
+            findNavController().popBackStack()
+        }
     }
-
 
 }

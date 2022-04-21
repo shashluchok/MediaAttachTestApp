@@ -17,6 +17,7 @@ import ru.scheduled.mediaattachtest.ui.media_attachments.media_notes.toDbMediaNo
 import ru.scheduled.mediaattachtest.ui.media_attachments.media_notes.toMediaNote
 
 
+
 class MediaImageViewerFragment : BaseFragment() {
 
     override val layoutResId: Int

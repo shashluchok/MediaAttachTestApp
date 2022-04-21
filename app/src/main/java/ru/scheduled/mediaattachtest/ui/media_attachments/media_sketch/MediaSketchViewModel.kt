@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import ru.scheduled.mediaattachtest.db.media_uris.MediaNotesRepository
 import ru.scheduled.mediaattachtest.ui.base.BaseViewModel
 import ru.scheduled.mediaattachtest.db.media_uris.DbMediaNotes
@@ -12,6 +13,7 @@ import ru.scheduled.mediaattachtest.ui.media_attachments.MediaConstants
 import ru.scheduled.mediaattachtest.ui.media_attachments.media_notes.MediaNotesStates
 import java.io.File
 import java.io.FileOutputStream
+import java.lang.Exception
 import java.util.*
 
 class MediaSketchViewModel(private val mediaNotesInteractor: MediaNotesRepository,
@@ -22,7 +24,26 @@ class MediaSketchViewModel(private val mediaNotesInteractor: MediaNotesRepositor
     fun updateMediaNote(dbMediaNote: DbMediaNotes) {
         viewModelScope.launch(Dispatchers.IO) {
             mediaNotesInteractor.updateMediaNote(dbMediaNote)
-            _state.postValue(MediaNotesStates.MediaNoteUpdatedState(dbMediaNote.id))
+            _state.postValue(MediaNotesStates.MediaNoteUpdatedState)
+        }
+    }
+
+    fun deleteMediaNoteById(id: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val mediaNote = mediaNotesInteractor.getMediaNoteById(id)
+                mediaNotesInteractor.removeMediaNotes(listOf(mediaNote))
+                withContext(Dispatchers.Main){
+                    _state.value = (MediaNotesStates.MediaNoteRemovedState)
+                }
+            }
+            catch (e:Exception){
+                withContext(Dispatchers.Main){
+                    _state.value = (MediaNotesStates.ErrorState)
+                }
+                e.printStackTrace()
+            }
+
         }
     }
 
@@ -82,7 +103,7 @@ class MediaSketchViewModel(private val mediaNotesInteractor: MediaNotesRepositor
                 updateMediaNote(newDbMediaNote)
 
             } catch (e: java.lang.Exception) {
-                _state.postValue(MediaNotesStates.ErrorState("Ошибка при сохранении файла"))
+                _state.postValue(MediaNotesStates.ErrorState)
             }
 
         }
@@ -120,7 +141,7 @@ class MediaSketchViewModel(private val mediaNotesInteractor: MediaNotesRepositor
 
             } catch (e: java.lang.Exception) {
                 e.printStackTrace()
-                _state.postValue(MediaNotesStates.ErrorState("Ошибка при сохранении файла"))
+                _state.postValue(MediaNotesStates.ErrorState)
             }
 
         }
