@@ -153,6 +153,7 @@ class MediaSketchFragment : BaseFragment(),IOnBackPressed {
 
 
         viewModel.state.observe(viewLifecycleOwner, Observer {
+            (requireActivity() as MainActivity).hideLoader()
             when(it){
                 is MediaNotesStates.MediaNoteSavedState ->{
                     findNavController().popBackStack()

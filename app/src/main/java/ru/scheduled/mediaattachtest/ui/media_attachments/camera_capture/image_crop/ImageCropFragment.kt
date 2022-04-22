@@ -52,6 +52,7 @@ class ImageCropFragment : BaseFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        (requireActivity() as MainActivity).hideLoader()
         requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
     }
 
@@ -120,6 +121,7 @@ class ImageCropFragment : BaseFragment() {
         }
 
     }
+
 
 
 

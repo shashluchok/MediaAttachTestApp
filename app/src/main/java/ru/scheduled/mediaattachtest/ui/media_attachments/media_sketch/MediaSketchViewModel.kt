@@ -24,7 +24,9 @@ class MediaSketchViewModel(private val mediaNotesInteractor: MediaNotesRepositor
     fun updateMediaNote(dbMediaNote: DbMediaNotes) {
         viewModelScope.launch(Dispatchers.IO) {
             mediaNotesInteractor.updateMediaNote(dbMediaNote)
-            _state.postValue(MediaNotesStates.MediaNoteUpdatedState)
+            withContext(Dispatchers.Main){
+                _state.value = (MediaNotesStates.MediaNoteUpdatedState)
+            }
         }
     }
 
@@ -88,7 +90,7 @@ class MediaSketchViewModel(private val mediaNotesInteractor: MediaNotesRepositor
                 }
 
                 val fileName =
-                        "$mydir/${System.currentTimeMillis()}"
+                        "${dbMediaNote.value}"
                 launch(Dispatchers.IO){
                     val f = File(fileName)
                     if (f.exists()) f.delete()
