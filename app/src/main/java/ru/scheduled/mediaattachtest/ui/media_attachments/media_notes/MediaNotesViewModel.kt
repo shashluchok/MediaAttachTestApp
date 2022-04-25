@@ -3,6 +3,7 @@ package ru.scheduled.mediaattachtest.ui.media_attachments.media_notes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.scheduled.mediaattachtest.db.media_uris.MediaNotesRepository
 import ru.scheduled.mediaattachtest.ui.base.BaseViewModel
@@ -25,6 +26,23 @@ class MediaNotesViewModel(private val mediaNotesInteractor: MediaNotesRepository
         viewModelScope.launch(Dispatchers.IO) {
             mediaNotesInteractor.saveMediaNotes(dbMediaNote)
             _state.postValue(MediaNotesStates.MediaNoteSavedState)
+        }
+    }
+
+    fun updateVoiceNoteWithRecognizedSpeech(text: String, noteId:String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                delay(100)
+                val dbMediaNote = mediaNotesInteractor.getMediaNoteById(noteId)
+                dbMediaNote.recognizedSpeechText = text
+                mediaNotesInteractor.updateMediaNote(dbMediaNote)
+                _state.postValue(MediaNotesStates.MediaNoteSavedState)
+
+            }
+            catch (e:java.lang.Exception){
+                e.printStackTrace()
+            }
+
         }
     }
 

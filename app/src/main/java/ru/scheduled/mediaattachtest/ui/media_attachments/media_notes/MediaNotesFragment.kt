@@ -65,6 +65,8 @@ class MediaNotesFragment : BaseFragment(),IOnBackPressed {
 
     private var initToolbarHeight = 0
 
+    private var currentRecordedVoiceNoteId:String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -335,17 +337,26 @@ class MediaNotesFragment : BaseFragment(),IOnBackPressed {
                 )
             }
 
-            setOnCompleteRecordingCallback { amplitudesList, speech, filePath ->
+            setOnCompleteRecordingCallback { amplitudesList, filePath ->
+
                 val dbMediaNote = DbMediaNotes(
                     id = UUID.randomUUID().toString(),
                     shardId = shardId,
                     value = filePath,
                     mediaType = "voice",
                     order = System.currentTimeMillis(),
-                    recognizedSpeechText = speech,
+                    recognizedSpeechText = "",
                     voiceAmplitudesList = amplitudesList
                 )
+                currentRecordedVoiceNoteId = dbMediaNote.id
                 viewModel.saveDbMediaNotes(dbMediaNote)
+            }
+
+            setOnSpeechRecognizedCallback { text ->
+                if(currentRecordedVoiceNoteId!=null && !text.isEmpty()){
+                    viewModel.updateVoiceNoteWithRecognizedSpeech(text = text, noteId = currentRecordedVoiceNoteId!!)
+                    currentRecordedVoiceNoteId = null
+                }
             }
 
         }
